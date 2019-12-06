@@ -12,7 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import code.DatabaseConnection;
+import java.sql.*;
+import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import code.entities.Book;
+import java.util.LinkedList;
+import java.util.List;
 /**
  *
  * @author kebson
@@ -33,16 +40,37 @@ public class BooksServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet BooksServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet BooksServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            System.out.println("OK1");
+            Connection con = DatabaseConnection.initializeDatabase(); 
+            System.out.println("con: "+con);
+            PreparedStatement st = con 
+                   .prepareStatement("select * from BOOKS");
+            ResultSet rs =  st.executeQuery();
+            List listeLivres = new LinkedList();
+
+            while(rs.next()){
+                Long id = rs.getLong(1);
+                String titre = rs.getString(2);
+                String auteur = rs.getString(3);
+                String edition = rs.getString(4);
+                Date dateParution = rs.getDate("DateParution");
+                Book livre = new Book(id, titre, auteur, edition, dateParution);
+                
+                listeLivres.add(livre);
+                
+            }
+            System.out.println("Livres: "+ listeLivres);
+            request.setAttribute("livres", listeLivres);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+             rs.close();
+             con.close();
+            
+            
+        }catch (SQLException ex) {
+            Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+                   
+        }catch (ClassNotFoundException ex) {
+            Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -58,7 +86,7 @@ public class BooksServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       processRequest(request, response);
     }
 
     /**
@@ -84,5 +112,6 @@ public class BooksServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
 
 }
