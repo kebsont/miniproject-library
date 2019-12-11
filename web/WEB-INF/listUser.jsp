@@ -1,7 +1,7 @@
 <%-- 
-    Document   : index
-    Created on : 6 déc. 2019, 16:03:13
-    Author     : kebson
+    Document   : listUser
+    Created on : 10 déc. 2019, 21:59:49
+    Author     : quent
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -12,12 +12,11 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Bibliotheque Doudouxnnn</title>
+        <title>Liste Utilisateur</title>
 
         <jsp:include page="header.jsp"/>
     </head>
     <body>
-
         <div class="main">
             <section class="signup">
                 <div class="container">
@@ -30,27 +29,29 @@
                     </form> -->
                     <form method="POST" class="register-form" id="register-form">
                         <div class="form-group col-md-5">
-                            <input type="text" placeholder="Rechercher un livre...">
+                            <input type="text" placeholder="Rechercher un utilisateur...">
                             <label for="name"><i class="zmdi zmdi-search material-icons-name"></i></label>
                         </div>
                     </form>
 
-                    <!-- Collection de livres -->
+                    <!-- Collection de User -->
                     <section>
                         <div class="signup-content">
                             <!-- row -->
                             <div class="row">
-                                <c:forEach items= "${livres}" var = "elt">
+                                <c:forEach items= "${users}" var = "elt">
                                     <div class="card-group">
                                         <div class="card">
-                                            <img class="card-img-top" src="images/books/1.jpg" alt="Card image cap">
+                                            <img class="card-img-top" src="images/Users/${elt.profil}.png" alt="Card image cap">
                                             <div class="card-body">
-                                                <h5 class="card-title">${elt.titre}</h5>
-                                                <p class="card-text">${elt.auteur}</p>
-                                                <p class="card-text"><small class="text-muted">${elt.dateParution}</small></p>
+                                                <h5 class="card-title">${elt.nom}</h5>
+                                                <p class="card-text">${elt.prenom}</p>
+                                                <p class="card-text"><small class="text-muted">${elt.dateNaissance}</small></p>
+                                                <p class="card-text"><small class="text-muted">${elt.email}</small></p>
                                             </div>
                                             <div class="card-footer">
-                                                <small class="text-success">Disponible</small>
+                                                <input type="submit" name="Modifier"  class="form-submit" value="Modifier"/>
+                                                <input type="submit" name="Supprimer"  class="form-submit" value="Supprimer"/>
                                             </div>
                                         </div>
                                     </div>
@@ -71,11 +72,10 @@
                             </ul>
                         </nav>
                     </section>
-                    <!-- Collection de livres -->
+                    <!-- Collection de users -->
 
                 </div>
             </section>
         </div>
-
-
+    </body>
 </html>

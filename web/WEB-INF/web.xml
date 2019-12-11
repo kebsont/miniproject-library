@@ -8,6 +8,14 @@
         <servlet-name>addUserServlet</servlet-name>
         <servlet-class>code.addUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BookServlet</servlet-name>
+        <servlet-class>code.BookServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>listUserServlet</servlet-name>
+        <servlet-class>code.listUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addBookServlet</servlet-name>
         <url-pattern>/addBookServlet</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>addUserServlet</servlet-name>
         <url-pattern>/addUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BookServlet</servlet-name>
+        <url-pattern>/BookServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listUserServlet</servlet-name>
+        <url-pattern>/listUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

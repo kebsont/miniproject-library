@@ -22,8 +22,8 @@ public class DatabaseConnection {
 		String dbURL = "jdbc:mysql://moustaphakebe.me:3306/"; 
 		// Database name to access 
 		String dbName = "bibliotheque"; 
-		String dbUsername = "mouss"; 
-		String dbPassword = "ToshibaGit0@"; 
+		String dbUsername = "quentin"; 
+		String dbPassword = "azertyuiop"; //ToshibaGit0@
 
 		Class.forName(dbDriver); 
 		Connection con=DriverManager.getConnection("jdbc:mysql://moustaphakebe.me:3306/bibliotheque","quentin","azertyuiop"); 

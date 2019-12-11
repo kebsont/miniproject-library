@@ -8,8 +8,6 @@ package code;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -80,7 +78,7 @@ public class addUserServlet extends HttpServlet {
                     out.println("Ton mot de passe est : " + typeUserRecu);
                     
                     System.out.println("nomRecu : " + nomRecu);
-                    response.sendRedirect(request.getContextPath() + "/addUserServlet");                    
+                    response.sendRedirect(request.getContextPath() + "/listUserServlet");                    
                     //r.close();
                     st.close();
                     con.close();
