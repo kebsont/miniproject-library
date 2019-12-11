@@ -1,16 +1,18 @@
  <!-- JS -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../js/main.js"></script>  
+    <script src="${pageContext.request.contextPath}/vendor/jquery/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>  
 <!-- Font Icon -->
-    <link rel="stylesheet" href="../fonts/material-icon/css/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/fonts/material-icon/css/material-design-iconic-font.css"> 
+    
     <!-- Main css -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../scss/layouts/main.scss">
-    <link rel="stylesheet" href="../scss/layouts/responsive.scss">
-    <link rel="stylesheet" href="../scss/style.scss">
-    <link rel="stylesheet" href="../scss/common/extend.scss">
-    <link rel="stylesheet" href="../scss/common/fonts.scss">
-    <link rel="stylesheet" href="../scss/common/global.scss">
-    <link rel="stylesheet" href="../scss/common/minxi.scss">
-    <link rel="stylesheet" href="../scss/common/variables.scss">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/layouts/main.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/layouts/responsive.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/style.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/common/extend.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/common/fonts.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/common/global.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/common/minxi.scss">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/scss/common/variables.scss">

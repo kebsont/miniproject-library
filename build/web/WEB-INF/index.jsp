@@ -7,16 +7,14 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bibliotheque Doudouxnnn</title>
+    <title>Bibliotheque Doudoux</title>
     
     <jsp:include page="header.jsp"/>
-
-
 </head>
 <body>
 
@@ -48,7 +46,7 @@
                     <div class="card">
                       <img class="card-img-top" src="images/books/1.jpg" alt="Card image cap">
                       <div class="card-body">
-                        <h5 class="card-title">${elt.titre}</h5>
+                        <h5 style='overflow-wrap: break-word;' class="card-title">${elt.titre}</h5>
                         <p class="card-text">${elt.auteur}</p>
                         <p class="card-text"><small class="text-muted">${elt.dateParution}</small></p>
                       </div>
