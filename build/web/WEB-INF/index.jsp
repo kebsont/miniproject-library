@@ -15,8 +15,47 @@
     <title>Bibliotheque Doudoux</title>
     
     <jsp:include page="header.jsp"/>
+    <style>
+            .container{
+                width: 1058px;
+            }
+            #thenav{
+                background-color: #e58e26;
+                height: 50px;
+                width: auto;
+            }
+            .thenav{
+                display: block;
+                color: white;
+
+            }
+            ul{
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                
+            }
+            li{
+                float: right;
+            }
+            li a{
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                
+            }
+            li hover:not(.active){
+                background-color: #0c2461;
+            }
+            
+
+        </style>
 </head>
 <body>
+          <jsp:include page= "nav.jsp"/>
 
     <div class="main">
       <section class="signup">
