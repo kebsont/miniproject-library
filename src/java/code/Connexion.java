@@ -19,6 +19,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 
 /**
@@ -57,25 +58,30 @@ public class Connexion extends HttpServlet {
                                 .prepareStatement("select * from USERS WHERE email = '" + emailRecu + "'");
                         ResultSet rs = st.executeQuery();
                         String password = null;
-                        String login = null;
+                        String profil = null;
                         String prenom = null, nom = null;
                         while (rs.next()) {
                             password = rs.getString("password");
-                            login = rs.getString("Login");
+                            profil = rs.getString("Profil");
                             prenom = rs.getString("Prenom");
                             nom = rs.getString("Nom");
                             System.out.println("password from the DB WHILE: " + password);
                         }
-                        User user = new User(password, nom, prenom);
+                        User user = new User(password, nom, prenom, profil);
 
                         if (passwordEncryptor.checkPassword(passwordRecu, password)) {
                             System.out.println("Identifiants Corrects");
-                            Cookie usernameCookie = new Cookie("username", user.getPrenom());
-                            Cookie prenomCookie = new Cookie("prenom", user.getNom());
-                            usernameCookie.setMaxAge(30 * 60);
-                            response.addCookie(usernameCookie);
+                            HttpSession session = request.getSession();
+                            session.setAttribute("prenomFromSession", user.getPrenom());
+                            session.setAttribute("nomFromSession", user.getNom());
+                            session.setAttribute("profilFromSession", user.getProfil());
+                            session.setMaxInactiveInterval(30*60);
+                            Cookie prenomCookie = new Cookie("prenomFromCookie", user.getPrenom());
+                            Cookie nomCookie = new Cookie("nomFromCookie", user.getNom());
                             prenomCookie.setMaxAge(30 * 60);
                             response.addCookie(prenomCookie);
+                            nomCookie.setMaxAge(30 * 60);
+                            response.addCookie(nomCookie);
                             response.sendRedirect(request.getContextPath() + "/BooksServlet");
                             //setting cookie to expiry in 30 mins
 

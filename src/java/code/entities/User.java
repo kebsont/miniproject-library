@@ -76,10 +76,11 @@ public class User {
     }
     
     
-    public User(String password, String nom, String prenom) {
+    public User(String password, String nom, String prenom, String profil) {
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
+        this.profil = profil;
     }
 
     public void setDateNaissance(String dateNaissance) {

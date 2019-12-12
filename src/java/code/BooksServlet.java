@@ -13,8 +13,10 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import code.entities.Book;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
 /**
  *
  * @author kebson
@@ -35,38 +37,46 @@ public class BooksServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            System.out.println("OK1");
-            Connection con = DatabaseConnection.initializeDatabase(); 
-            System.out.println("con: "+con);
-            PreparedStatement st = con 
-                   .prepareStatement("select * from BOOKS");
-            ResultSet rs =  st.executeQuery();
-            List listeLivres = new LinkedList();
+            Connection con = DatabaseConnection.initializeDatabase();
 
-            while(rs.next()){
-                Long id = rs.getLong(1);
-                String titre = rs.getString(2);
-                String auteur = rs.getString(3);
-                String edition = rs.getString(4);
-                Date dateParution = rs.getDate("DateParution");
-                Book livre = new Book(id, titre, auteur, edition, dateParution);
-                
-                listeLivres.add(livre);
-                
-            }
-            System.out.println("Livres: "+ listeLivres);
-            request.setAttribute("livres", listeLivres);
-            this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-             rs.close();
-             con.close();
-            
-            
-        }catch (SQLException ex) {
+           /* if (request.getParameter("fctSearch") != null) {
+             
+            } else {*/
+
+                System.out.println("Tu n'as rien recherché");
+
+                PreparedStatement st = con
+                        .prepareStatement("select * from BOOKS");
+                ResultSet rs = st.executeQuery();
+                List listeLivres = new LinkedList();
+
+                while (rs.next()) {
+                    Long id = rs.getLong(1);
+                    String titre = rs.getString(2);
+                    String auteur = rs.getString(3);
+                    String edition = rs.getString(4);
+                    Date dateParution = rs.getDate("DateParution");
+                    Book livre = new Book(id, titre, auteur, edition, dateParution);
+
+                    listeLivres.add(livre);
+
+                }
+                System.out.println("Livres: " + listeLivres);
+                request.setAttribute("livres", listeLivres);
+
+                this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+
+                rs.close();
+                con.close();
+
+            //}
+        } catch (SQLException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
-                   
-        }catch (ClassNotFoundException ex) {
+
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -81,7 +91,7 @@ public class BooksServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       processRequest(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -95,7 +105,43 @@ public class BooksServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            Connection con = DatabaseConnection.initializeDatabase();
+            String titreSearch = request.getParameter("fctSearch");
+            System.out.println("Tu recherches le livre: " + titreSearch);
+            ArrayList al = null;
+            Book book = new Book();
+            ArrayList bookSearchAL = new ArrayList();
+            String query = "select * from BOOKS WHERE Titre LIKE '%" + titreSearch + "%' ";
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            
+            List listeLivres = new LinkedList();
+            
+            while (rs.next()) {
+                Long id = rs.getLong(1);
+                String titre = rs.getString(2);
+                String auteur = rs.getString(3);
+                String edition = rs.getString(4);
+                Date dateParution = rs.getDate("DateParution");
+                Book livre = new Book(id, titre, auteur, edition, dateParution);
+                
+                listeLivres.add(livre);
+                
+            }
+            System.out.println("Livressssssssssss: " + listeLivres);
+            request.setAttribute("livres", listeLivres);
+            
+            this.getServletContext().getRequestDispatcher("/WEB-INF/bookSearch.jsp").forward(request, response);
+            
+            rs.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -107,6 +153,5 @@ public class BooksServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
 
 }

@@ -90,7 +90,7 @@
                     </div>
                     <div class="signup-image">
                         <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="${pageContext.request.contextPath}/Inscription" class="signup-image-link">J'ai déjà un compte</a>
+                        <a href="${pageContext.request.contextPath}/Connexion" class="signup-image-link">J'ai déjà un compte</a>
                     </div>
                 </div>
             </div>

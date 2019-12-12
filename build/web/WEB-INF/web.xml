@@ -24,6 +24,10 @@
         <servlet-name>Connexion</servlet-name>
         <servlet-class>code.Connexion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Deconnexion</servlet-name>
+        <servlet-class>code.Deconnexion</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addBookServlet</servlet-name>
         <url-pattern>/addBookServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>Connexion</servlet-name>
         <url-pattern>/Connexion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Deconnexion</servlet-name>
+        <url-pattern>/Deconnexion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
