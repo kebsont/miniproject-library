@@ -103,7 +103,14 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
     @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (request.getParameter("Modifier") != null) {
+            request.setAttribute("idUser", request.getParameter("Modifier")); 
+            response.sendRedirect(request.getContextPath()+ "/modifUserServlet");
+
+        } else if (request.getParameter("Supprimer") != null) {
+            deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDUser", "USERS");
+            response.sendRedirect(request.getContextPath()+ "/listUserServlet");
+        }
     }
 
     /**
@@ -115,5 +122,26 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+int deleteElement(int id, String NomID, String table) {
+        Connection con;
+        int rs = 0;
+        try {
+            con = DatabaseConnection.initializeDatabase();
+            System.out.println("con: " + con);
+            PreparedStatement st = con
+                    .prepareStatement("DELETE FROM " + table + " WHERE " + NomID + " = " + id);
+            System.out.println("Ma requete est " + st);
+            rs = st.executeUpdate();
+            System.out.println("le rs est " + rs);
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
 
 }

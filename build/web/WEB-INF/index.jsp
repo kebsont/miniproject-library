@@ -107,7 +107,7 @@
             <nav class ="thenav">
                 <ul>
                     <li><a href="#"><i class="zmdi zmdi-power material-icons-name"></i></a></li>
-                    <li><a href="#"><%= nom + " " + prenom%></a></li>
+                    <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
                 </ul>
             </nav>
@@ -118,9 +118,9 @@
             <nav class ="thenav">
                 <ul>
                     <li><a href="#"><i class="zmdi zmdi-power material-icons-name"></i></a></li>
-                    <li><a href="#"><%= nom + " " + prenom%></a></li>
+                    <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
                      <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Livres</a></li>  
-                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Utilisateurs</a></li>  
+                     <li><a class="active" href="${pageContext.request.contextPath}/listUserServlet">Gérer Utilisateurs</a></li>  
                      <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Emprunts</a></li>  
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
                 </ul>
@@ -160,6 +160,14 @@
                                                 <p class="card-text"><small class="text-muted">${elt.dateParution}</small></p>
                                             </div>
                                             <div class="card-footer">
+                                                <form action="${pageContext.request.contextPath}/BooksServlet" method="post">
+                                                    <button type="submit" name="Modifier" class="form-submit btn btn-primary" value="${elt.id}">
+                                                        <span class="zmdi zmdi-border-color"></span>
+                                                    </button>
+                                                    <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value="${elt.id}">
+                                                        <span class="zmdi zmdi-delete"></span>
+                                                    </button>
+                                                </form>
                                                 <small class="text-success">Disponible</small>
                                             </div>
                                         </div>

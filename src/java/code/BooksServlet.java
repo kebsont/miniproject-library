@@ -39,9 +39,7 @@ public class BooksServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             Connection con = DatabaseConnection.initializeDatabase();
 
-           /* if (request.getParameter("fctSearch") != null) {
-             
-            } else {*/
+          
 
                 System.out.println("Tu n'as rien recherché");
 
@@ -108,6 +106,9 @@ public class BooksServlet extends HttpServlet {
         try {
             Connection con = DatabaseConnection.initializeDatabase();
             String titreSearch = request.getParameter("fctSearch");
+            if(titreSearch != null){
+                
+            
             System.out.println("Tu recherches le livre: " + titreSearch);
             ArrayList al = null;
             Book book = new Book();
@@ -136,6 +137,15 @@ public class BooksServlet extends HttpServlet {
             
             rs.close();
             con.close();
+            }
+            else if (request.getParameter("Modifier") != null) {
+            request.setAttribute("idBook", request.getParameter("Modifier")); 
+            response.sendRedirect(request.getContextPath()+ "/modifBookServlet");
+
+        } else if (request.getParameter("Supprimer") != null) {
+            deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDBooks", "BOOKS");
+            response.sendRedirect(request.getContextPath()+ "/BooksServlet");
+        }
         } catch (SQLException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -153,5 +163,26 @@ public class BooksServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+    int deleteElement(int id, String NomID, String table) {
+        Connection con;
+        int rs = 0;
+        try {
+            con = DatabaseConnection.initializeDatabase();
+            System.out.println("con: " + con);
+            PreparedStatement st = con
+                    .prepareStatement("DELETE FROM " + table + " WHERE " + NomID + " = " + id);
+            System.out.println("Ma requete est " + st);
+            rs = st.executeUpdate();
+            System.out.println("le rs est " + rs);
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
 
 }

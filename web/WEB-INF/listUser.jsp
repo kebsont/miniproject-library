@@ -89,9 +89,15 @@
                                                 <p class="card-text"><small class="text-muted">${elt.dateNaissance}</small></p>
                                                 <p class="card-text"><small class="text-muted">${elt.email}</small></p>
                                             </div>
-                                            <div class="card-footer">
-                                                <input type="submit" name="Modifier"  class="form-submit btn btn-primary" value="Modifier"/>
-                                                <input type="submit" name="Supprimer"  class="form-submit btn btn-danger" value="Supprimer"/>
+                                           <div class="card-footer">
+                                                <form action="${pageContext.request.contextPath}/listUserServlet" method="post">
+                                                    <button type="submit" name="Modifier" class="form-submit btn btn-primary" value=${elt.id}>
+                                                        <span class="zmdi zmdi-border-color"></span>
+                                                    </button>
+                                                   <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value=${elt.id}>
+                                                        <span class="zmdi zmdi-delete"></span>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>

@@ -28,6 +28,14 @@
         <servlet-name>Deconnexion</servlet-name>
         <servlet-class>code.Deconnexion</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>modifBookServlet</servlet-name>
+        <servlet-class>modifBookServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>modifUserServlet</servlet-name>
+        <servlet-class>code.modifUserServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addBookServlet</servlet-name>
         <url-pattern>/addBookServlet</url-pattern>
@@ -55,6 +63,14 @@
     <servlet-mapping>
         <servlet-name>Deconnexion</servlet-name>
         <url-pattern>/Deconnexion</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modifBookServlet</servlet-name>
+        <url-pattern>/modifBookServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>modifUserServlet</servlet-name>
+        <url-pattern>/modifUserServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
