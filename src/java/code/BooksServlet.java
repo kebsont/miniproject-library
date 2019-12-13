@@ -16,6 +16,7 @@ import code.entities.Book;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -169,10 +170,10 @@ public class BooksServlet extends HttpServlet {
             } else if (request.getParameter("Supprimer") != null) {
                 deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDBooks", "BOOKS");
                 response.sendRedirect(request.getContextPath() + "/BooksServlet");
-            }else if (request.getParameter("Emprunter") !=null){
-            emprunterLivre(Integer.parseInt(request.getParameter("Emprunter")));
-            response.sendRedirect(request.getContextPath()+ "/BooksServlet");
-        }
+            } else if (request.getParameter("Emprunter") != null) {
+                emprunterLivre(Integer.parseInt(request.getParameter("Emprunter")), request);
+                response.sendRedirect(request.getContextPath() + "/BooksServlet");
+            }
         } catch (SQLException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -211,18 +212,24 @@ public class BooksServlet extends HttpServlet {
         }
         return rs;
     }
-    
-    int emprunterLivre(int id){
+
+    int emprunterLivre(int id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Long IdUser = (Long) session.getAttribute("IDUser");
+
         Connection con;
         int rs = 0;
         try {
             con = DatabaseConnection.initializeDatabase();
             System.out.println("con: " + con);
-            PreparedStatement st = con
-                    .prepareStatement("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
+            Statement st = con.createStatement();
+            //.prepareStatement("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
+
             System.out.println("Ma requete est " + st);
-            rs = st.executeUpdate();
+            rs = st.executeUpdate("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
+            st.executeUpdate("INSERT INTO EMPRUNTS (UserID, BookID, DateEmprunt) VALUES ("+ IdUser+", " + id + " ,NOW());");
             System.out.println("le rs est " + rs);
+            con.commit();
             st.close();
             con.close();
         } catch (SQLException ex) {

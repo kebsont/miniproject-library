@@ -59,7 +59,9 @@ public class Connexion extends HttpServlet {
                         String password = null;
                         String profil = null;
                         String prenom = null, nom = null;
+                        Long IDUser = null;
                         while (rs.next()) {
+                            IDUser = rs.getLong("IDUser");
                             password = rs.getString("password");
                             profil = rs.getString("Profil");
                             prenom = rs.getString("Prenom");
@@ -71,6 +73,7 @@ public class Connexion extends HttpServlet {
                         if (passwordEncryptor.checkPassword(passwordRecu, password)) {
                             System.out.println("Identifiants Corrects");
                             HttpSession session = request.getSession();
+                            session.setAttribute("IDUser", IDUser);
                             session.setAttribute("prenomFromSession", user.getPrenom());
                             session.setAttribute("nomFromSession", user.getNom());
                             session.setAttribute("profilFromSession", user.getProfil());

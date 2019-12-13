@@ -36,6 +36,10 @@
         <servlet-name>modifUserServlet</servlet-name>
         <servlet-class>code.modifUserServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>listEmpruntServlet</servlet-name>
+        <servlet-class>code.listEmpruntServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addBookServlet</servlet-name>
         <url-pattern>/addBookServlet</url-pattern>
@@ -71,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>modifUserServlet</servlet-name>
         <url-pattern>/modifUserServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>listEmpruntServlet</servlet-name>
+        <url-pattern>/listEmpruntServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

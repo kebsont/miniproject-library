@@ -69,6 +69,7 @@
 
                 if (profil.equals("User")) {
                     // menu pour agent
+                    response.sendRedirect(request.getContextPath() + "/Connexion");
         %>
         <div id = "thenav" > 
             <nav class ="thenav">
@@ -88,7 +89,7 @@
                     <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Livres</a></li>  
                     <li><a class="active" href="${pageContext.request.contextPath}/listUserServlet">Gérer Utilisateurs</a></li>  
-                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Emprunts</a></li>  
+                    <li><a class="active" href="${pageContext.request.contextPath}/listEmpruntServlet">Gérer Emprunts</a></li>  
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
                 </ul>
             </nav>

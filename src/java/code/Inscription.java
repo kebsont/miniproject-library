@@ -86,7 +86,7 @@ public class Inscription extends HttpServlet {
 
                 int r = st.executeUpdate(reqaddUser);
 
-                response.sendRedirect(request.getContextPath() + "/Inscription");
+                response.sendRedirect(request.getContextPath() + "/Connexion");
                 st.close();
                 con.close();
             } else {

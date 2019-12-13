@@ -15,7 +15,7 @@
         <title>Bibliotheque Doudoux</title>
 
         <jsp:include page="header.jsp"/>
-       <style>
+        <style>
             .container{
                 width: 1030px;
             }
@@ -34,7 +34,7 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                
+
             }
             li{
                 float: right;
@@ -45,7 +45,7 @@
                 text-align: center;
                 padding: 14px 16px;
                 text-decoration: none;
-                
+
             }
             li hover:not(.active){
                 background-color: #0c2461;
@@ -61,12 +61,16 @@
                 margin-right: center;
                 margin-left: center;
             }
-           
+            #wrapper {
+                display: flex;
+                justify-content: center;
+            }
+
 
         </style>
     </head>
     <body>
- <%
+        <%
 
             // Verifier si le user a les droits
             String prenom = null;
@@ -86,7 +90,7 @@
 
                 if (profil.equals("User")) {
                     // menu pour agent
-        %>
+%>
         <div id = "thenav" > 
             <nav class ="thenav">
                 <ul>
@@ -96,7 +100,7 @@
                 </ul>
             </nav>
         </div>
-                <div class="main">
+        <div class="main">
             <section class="signup">
                 <div class="container">
 
@@ -123,16 +127,16 @@
                                                 <p class="card-text">${elt.auteur}</p>
                                                 <p class="card-text"><small class="text-muted">${elt.dateParution}</small></p>
                                             </div>
-                                           <div class="card-footer">
+                                            <div class="card-footer">
                                                 <form action="${pageContext.request.contextPath}/BooksServlet" method="post">
                                                     <div class="row">
-                                                        
-                                                   
-                                                    <c:if test="${elt.disponibilite==1}">
-                                                        <button type="submit" name="Emprunter" class="form-submit btn btn-success" value="${elt.id}">
-                                                            <span class="zmdi zmdi-shopping-basket"></span>
-                                                        </button>
-                                                    </c:if> 
+
+
+                                                        <c:if test="${elt.disponibilite==1}">
+                                                            <button type="submit" name="Emprunter" class="form-submit btn btn-success" value="${elt.id}">
+                                                                <span class="zmdi zmdi-shopping-basket"></span>
+                                                            </button>
+                                                        </c:if> 
                                                     </div>
                                                 </form>
                                                 <c:if test="${elt.disponibilite==0}">
@@ -175,7 +179,7 @@
                     <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Livres</a></li>  
                     <li><a class="active" href="${pageContext.request.contextPath}/listUserServlet">Gérer Utilisateurs</a></li>  
-                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Emprunts</a></li>  
+                    <li><a class="active" href="${pageContext.request.contextPath}/listEmpruntServlet">Gérer Emprunts</a></li>  
                     <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
                 </ul>
             </nav>
@@ -209,21 +213,21 @@
                                                 <p class="card-text">${elt.auteur}</p>
                                                 <p class="card-text"><small class="text-muted">${elt.dateParution}</small></p>
                                             </div>
-                                           <div class="card-footer">
+                                            <div class="card-footer">
                                                 <form action="${pageContext.request.contextPath}/BooksServlet" method="post">
-                                                    <div class="row">
-                                                        
-                                                    <button type="submit" name="Modifier" class="form-submit btn btn-primary" value="${elt.id}">
-                                                        <span class="zmdi zmdi-border-color"></span>
-                                                    </button>
-                                                    <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value="${elt.id}">
-                                                        <span class="zmdi zmdi-delete"></span>
-                                                    </button>
-                                                    <c:if test="${elt.disponibilite==1}">
-                                                        <button type="submit" name="Emprunter" class="form-submit btn btn-success" value="${elt.id}">
-                                                            <span class="zmdi zmdi-shopping-basket"></span>
-                                                        </button>
-                                                    </c:if> 
+                                                    <div id="wrapper">
+
+                                                        <button type="submit" name="Modifier" class="form-submit btn btn-primary" value="${elt.id}">
+                                                            <span class="zmdi zmdi-border-color"></span>
+                                                        </button> &nbsp;
+                                                        <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value="${elt.id}">
+                                                            <span class="zmdi zmdi-delete"></span>
+                                                        </button>&nbsp;
+                                                        <c:if test="${elt.disponibilite==1}">
+                                                            <button type="submit" name="Emprunter" class="form-submit btn btn-success" value="${elt.id}">
+                                                                <span class="zmdi zmdi-shopping-basket"></span>
+                                                            </button>
+                                                        </c:if> 
                                                     </div>
                                                 </form>
                                                 <c:if test="${elt.disponibilite==0}">
@@ -257,5 +261,5 @@
                 </div>
             </section>
         </div>
-  <% }%>
+        <% }%>
 </html>
