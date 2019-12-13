@@ -112,6 +112,7 @@
                         </div>
                     </form>
 
+
                     <!-- Collection de livres -->
                     <section>
                         <div class="signup-content">
@@ -121,7 +122,7 @@
 
                                     <div class="card-group">
                                         <div class="card">
-                                            <img class="card-img-top" src="images/books/1.jpg" alt="Card image cap">
+                                            <img class="card-img-top" src="images/books/${elt.id}.jpg" alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 style='overflow-wrap: break-word;' class="card-title">${elt.titre}</h5>
                                                 <p class="card-text">${elt.auteur}</p>
@@ -197,6 +198,12 @@
                             <label for="name"><i class="zmdi zmdi-search material-icons-name"></i></label>
                         </div>
                     </form>
+                    <form action="${pageContext.request.contextPath}/BooksServlet" method="post">
+                        <div class="row">
+                            <button type="submit" name="Ajouter" class="form-submit btn btn-success" value="Ajout">Ajouter un livre
+                            </button>
+                        </div>
+                    </form>
 
                     <!-- Collection de livres -->
                     <section>
@@ -207,7 +214,7 @@
 
                                     <div class="card-group">
                                         <div class="card">
-                                            <img class="card-img-top" src="images/books/1.jpg" alt="Card image cap">
+                                            <img class="card-img-top" src="images/books/${elt.id}.jpg" alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 style='overflow-wrap: break-word;' class="card-title">${elt.titre}</h5>
                                                 <p class="card-text">${elt.auteur}</p>

@@ -40,18 +40,9 @@ public class addUserServlet extends HttpServlet {
             Connection con = null;
             try {
                 con = DatabaseConnection.initializeDatabase();
-
+                // if form is filled
                 if (request.getParameterMap().containsKey("nom")) {
                     Statement st = null;
-
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet addBookServlet</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Servlet addBookServlet at " + request.getContextPath() + "</h1>");
-
                     String nomRecu = request.getParameter("nom");
                     String prenomRecu = request.getParameter("prenom");
                     String dateNaissRecu = request.getParameter("dateNaiss");
@@ -59,38 +50,28 @@ public class addUserServlet extends HttpServlet {
                     String passwordRecu = request.getParameter("password");
                     String typeUserRecu = request.getParameter("typeUser");
 
-
+                    // Get the user value and insert it
                     st = con.createStatement();
                     String reqaddBook = "INSERT INTO USERS (Nom, Prenom, DateNaissance,Profil, Password, Email ) VALUES "
                             + "('" +nomRecu + "','" + prenomRecu + "','" + dateNaissRecu + "','" + typeUserRecu + "','" + passwordRecu + "','" + emailRecu + "')";
 
                     int r = st.executeUpdate(reqaddBook);
-                    out.println("Bienvenue " + nomRecu + " !!!!");
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + prenomRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + dateNaissRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + emailRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + passwordRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + typeUserRecu);
-                    
-                    System.out.println("nomRecu : " + nomRecu);
+                    // redirect if all done
                     response.sendRedirect(request.getContextPath() + "/listUserServlet");                    
-                    //r.close();
                     st.close();
                     con.close();
 
                 } else {
+                    // redirect to the same page when nothing is filled
                     this.getServletContext().getRequestDispatcher("/WEB-INF/addUser.jsp").forward(request, response);
                 }
 
             } catch (SQLException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-1);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-2);
             }
 
         }

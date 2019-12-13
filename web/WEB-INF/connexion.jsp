@@ -78,8 +78,6 @@
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="connexion" class="form-submit"  placeholder="Se connecter"/>
-                              <!--<button class="form-submit" type="button" onclick="connectFunc()" name="connexion">Se connecter</button>-->
-                                <!-- <input type="submit" name="signin"  class="form-submit"  onclick="window.location.href='accueil.html'" value="Se connecter"/> -->
                             </div>
                         </form>
                     </div>

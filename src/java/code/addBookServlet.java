@@ -35,38 +35,21 @@ public class addBookServlet extends HttpServlet {
             Connection con = null;
             try {
                 con = DatabaseConnection.initializeDatabase();
-
+                // if form is filled
                 if (request.getParameterMap().containsKey("titre")) {
                     Statement st = null;
-
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet addBookServlet</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Servlet addBookServlet at " + request.getContextPath() + "</h1>");
 
                     String titreRecu = request.getParameter("titre");
                     String auteurRecu = request.getParameter("auteur");
                     String editeurRecu = request.getParameter("editeur");
                     String parutionRecu = request.getParameter("parution");
-                    int monId  = 45;
-
+                    // Insert into DB
                     st = con.createStatement();
-                    String reqaddBook = "INSERT INTO BOOKS (Titre, Auteur, Edition, DateParution) VALUES ('" +titreRecu + "','" + auteurRecu + "','" + editeurRecu + "','" + parutionRecu + "')";
+                    String reqaddBook = "INSERT INTO BOOKS (Titre, Auteur, Edition, DateParution) VALUES ('" + titreRecu + "','" + auteurRecu + "','" + editeurRecu + "','" + parutionRecu + "')";
 
                     int r = st.executeUpdate(reqaddBook);
-                    out.println("Bienvenue " + titreRecu + " !!!!");
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + auteurRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + editeurRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + parutionRecu);
-                    System.out.println("titreRecu : " + titreRecu);
-                    response.sendRedirect(request.getContextPath() + "/BooksServlet");                    
-                    //r.close();
+
+                    response.sendRedirect(request.getContextPath() + "/BooksServlet");
                     st.close();
                     con.close();
 
@@ -76,8 +59,10 @@ public class addBookServlet extends HttpServlet {
 
             } catch (SQLException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-1);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-2);
             }
 
         }

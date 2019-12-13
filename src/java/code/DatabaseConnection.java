@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,7 +23,7 @@ public class DatabaseConnection {
 		// Database name to access 
 		String dbName = "bibliotheque"; 
 		String dbUsername = "quentin"; 
-		String dbPassword = "azertyuiop"; //ToshibaGit0@
+		String dbPassword = "azertyuiop"; 
 
 		Class.forName(dbDriver); 
 		Connection con=DriverManager.getConnection("jdbc:mysql://moustaphakebe.me:3306/bibliotheque","quentin","azertyuiop"); 

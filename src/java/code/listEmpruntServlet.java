@@ -6,7 +6,6 @@
 package code;
 
 import code.entities.Emprunt;
-import code.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -43,7 +42,7 @@ public class listEmpruntServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             Connection con = DatabaseConnection.initializeDatabase();
-            System.out.println("con: " + con);
+            // Get all loaned books
             PreparedStatement st = con
                     .prepareStatement("SELECT EMPRUNTS.*, USERS.*, BOOKS.* FROM EMPRUNTS JOIN USERS ON EMPRUNTS.UserID = USERS.IDUser JOIN BOOKS ON EMPRUNTS.BookID = BOOKS.IDBooks");
             ResultSet rs = st.executeQuery();
@@ -59,19 +58,21 @@ public class listEmpruntServlet extends HttpServlet {
                 Date dateEmprunt = rs.getDate("DateEmprunt");
                 Emprunt emprunt = new Emprunt(id, idBook, titre, auteur, nom, prenom, dateEmprunt);
 
-                listeEmprunt.add(emprunt);
+                listeEmprunt.add(emprunt); // Fill them in the book list
 
             }
-            System.out.println("Emprunt: " + listeEmprunt);
+            // pass the list to the emprunts variable
             request.setAttribute("emprunts", listeEmprunt);
             this.getServletContext().getRequestDispatcher("/WEB-INF/listEmprunt.jsp").forward(request, response);
             rs.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-1);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-2);
         }
     }
 
@@ -117,45 +118,48 @@ public class listEmpruntServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    // Function to  get back a book
 
     int retourLivre(int idBook) {
         Connection con;
         int rs = 0;
         try {
             con = DatabaseConnection.initializeDatabase();
-            System.out.println("con: " + con);
+            // Give it back with the given ID
             PreparedStatement st = con
                     .prepareStatement("UPDATE BOOKS SET Disponibilite = 1 WHERE IDBooks = " + idBook);
-            System.out.println("Ma requete est " + st);
             rs = st.executeUpdate();
-            System.out.println("le rs est " + rs);
             st.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-3);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-4);
         }
         return rs;
     }
 
+    // Function to remove the loaned book
     int deleteEmprunt(int id) {
         Connection con;
         int rs = 0;
         try {
             con = DatabaseConnection.initializeDatabase();
-            System.out.println("con: " + con);
+            // Delete it with the given ID
             PreparedStatement st = con
                     .prepareStatement("DELETE FROM EMPRUNTS WHERE BookID = " + id);
             System.out.println("Ma requete est " + st);
             rs = st.executeUpdate();
-            System.out.println("le rs est " + rs);
             st.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-5);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-6);
         }
         return rs;
     }

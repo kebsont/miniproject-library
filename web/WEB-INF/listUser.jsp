@@ -74,8 +74,8 @@
                 profil = (String) session.getAttribute("profilFromSession");
 
                 if (profil.equals("User")) {
-                request.setAttribute("error", "Vous n'avez pas le droit d'accéder à cette page !");
-                //TODO: rediriger dans la page .jsp et afficher les msg d'erreurs.
+                    request.setAttribute("error", "Vous n'avez pas le droit d'accéder à cette page !");
+                    //TODO: rediriger dans la page .jsp et afficher les msg d'erreurs.
                     response.sendRedirect(request.getContextPath() + "/Connexion");
         %>
         <div id = "thenav" > 
@@ -112,6 +112,15 @@
                         <div class="form-group col-md-5">
                             <input type="text" placeholder="Rechercher un utilisateur...">
                             <label for="name"><i class="zmdi zmdi-search material-icons-name"></i></label>
+                        </div>
+
+                    </form>
+                    <form action="${pageContext.request.contextPath}/listUserServlet" method="post">
+                        <div id="wrapper">
+                            <button type="submit" name="AddUser" class="form-submit btn btn-primary" value="add">
+                                Ajouter un utilisateur
+                            </button>
+
                         </div>
                     </form>
 

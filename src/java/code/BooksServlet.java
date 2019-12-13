@@ -52,7 +52,7 @@ public class BooksServlet extends HttpServlet {
                 String titre = rs.getString(2);
                 String auteur = rs.getString(3);
                 String edition = rs.getString(4);
-                Date dateParution = rs.getDate("DateParution");
+                String dateParution = rs.getString("DateParution");
                 Byte disponibilite = rs.getByte("Disponibilite");
 
                 Book livre = new Book(id, titre, auteur, edition, dateParution, disponibilite);
@@ -68,12 +68,14 @@ public class BooksServlet extends HttpServlet {
             rs.close();
             con.close();
 
-            //}
+            
         } catch (SQLException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-1);
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-2);
         }
 
     }
@@ -125,7 +127,7 @@ public class BooksServlet extends HttpServlet {
                     String titre = rs.getString(2);
                     String auteur = rs.getString(3);
                     String edition = rs.getString(4);
-                    Date dateParution = rs.getDate("DateParution");
+                    String dateParution = rs.getString("DateParution");
                     Byte disponibilite = rs.getByte("Disponibilite");
 
                     livre = new Book(id, titre, auteur, edition, dateParution, disponibilite);
@@ -133,7 +135,7 @@ public class BooksServlet extends HttpServlet {
                     listeLivres.add(livre);
 
                 }
-                System.out.println("Livressssssssssss: " + listeLivres);
+                System.out.println("Booksssssssssss: " + listeLivres);
                 request.setAttribute("livres", listeLivres);
 
                 this.getServletContext().getRequestDispatcher("/WEB-INF/bookSearch.jsp").forward(request, response);
@@ -152,7 +154,7 @@ public class BooksServlet extends HttpServlet {
                     String titre = rs.getString(2);
                     String auteur = rs.getString(3);
                     String edition = rs.getString(4);
-                    Date dateParution = rs.getDate("DateParution");
+                    String dateParution = rs.getString("DateParution");
                     Byte disponibilite = rs.getByte("Disponibilite");
 
                     BookToEdit = new Book(id, titre, auteur, edition, dateParution, disponibilite);
@@ -173,11 +175,15 @@ public class BooksServlet extends HttpServlet {
             } else if (request.getParameter("Emprunter") != null) {
                 emprunterLivre(Integer.parseInt(request.getParameter("Emprunter")), request);
                 response.sendRedirect(request.getContextPath() + "/BooksServlet");
+            }else if (request.getParameter("Ajouter") != null) { 
+                response.sendRedirect(request.getContextPath() + "/addBookServlet");
             }
         } catch (SQLException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-3);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BooksServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-4);
         }
 
     }
@@ -207,12 +213,14 @@ public class BooksServlet extends HttpServlet {
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-6);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-7);
         }
         return rs;
     }
-
+    // Lon a book with the given ID
     int emprunterLivre(int id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Long IdUser = (Long) session.getAttribute("IDUser");
@@ -223,19 +231,18 @@ public class BooksServlet extends HttpServlet {
             con = DatabaseConnection.initializeDatabase();
             System.out.println("con: " + con);
             Statement st = con.createStatement();
-            //.prepareStatement("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
-
-            System.out.println("Ma requete est " + st);
+            // Execute 2 request with a transaction
             rs = st.executeUpdate("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
             st.executeUpdate("INSERT INTO EMPRUNTS (UserID, BookID, DateEmprunt) VALUES ("+ IdUser+", " + id + " ,NOW());");
             System.out.println("le rs est " + rs);
-            con.commit();
             st.close();
             con.close();
         } catch (SQLException ex) {
             Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-8);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-9);
         }
         return rs;
     }

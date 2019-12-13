@@ -40,8 +40,8 @@ public class modifUserServlet extends HttpServlet {
             Connection con = null;
             try {
                 con = DatabaseConnection.initializeDatabase();
-                //if (!request.getParameter("nom").isEmpty() && request.getParameter("password").isEmpty()) {
-                if (request.getParameterMap().containsKey("nom")) {   
+                // if form is filled with th ename
+                if (request.getParameterMap().containsKey("nom")) {
 
                     Statement st = null;
                     String nomRecu = request.getParameter("nom");
@@ -52,35 +52,26 @@ public class modifUserServlet extends HttpServlet {
                     String typeUserRecu = request.getParameter("typeUser");
                     int monId = 10;
 
-                    String reqUpUser = "UPDATE USERS SET Nom ='"+nomRecu+"', Prenom ='"+prenomRecu+"', DateNaissance='"+dateNaissRecu+"',Profil='"+typeUserRecu+"',Email='"+emailRecu+"' WHERE IDUser = "+ monId;
+                    String reqUpUser = "UPDATE USERS SET Nom ='" + nomRecu + "', Prenom ='" + prenomRecu + "', DateNaissance='" + dateNaissRecu + "',Profil='" + typeUserRecu + "',Email='" + emailRecu + "' WHERE IDUser = " + monId;
                     st = con.createStatement();
 
                     int r = st.executeUpdate(reqUpUser);
-                    out.println("Modification de  " + nomRecu + " !!!!");
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + prenomRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + dateNaissRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + emailRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + passwordRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + typeUserRecu);
 
                     System.out.println("nomRecu : " + nomRecu);
                     response.sendRedirect(request.getContextPath() + "/listUserServlet");
-                    //r.close();
                     st.close();
                     con.close();
 
                 } else {
+                    // redirect if any other actions
                     this.getServletContext().getRequestDispatcher("/WEB-INF/modifUser.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-1);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-2);
             }
         }
     }

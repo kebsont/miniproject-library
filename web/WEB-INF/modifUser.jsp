@@ -89,23 +89,23 @@
                       <form method="POST" class="register-form" id="register-form">
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="nom" id="name" value="<%= nom %>"/>
+                              <input type="text" name="nom" id="name" value="<%= nom %>" required/>
                           </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="prenom" id="name" value="<%= prenom %>"/>
+                              <input type="text" name="prenom" id="name" value="<%= prenom %>" required/>
                           </div>
                            <div class="form-group">
                               <label for="dateNaiss"><i class="zmdi zmdi-calendar"></i></label>
-                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance"/>
+                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance" required/>
                           </div>
                           <div class="form-group">
                               <label for="email"><i class="zmdi zmdi-email"></i></label>
-                              <input type="email" name="email" id="email" value="${user.getEmail()}"/>
+                              <input type="email" name="email" id="email" value="${user.getEmail()}" required/>
                           </div>
                           <div class="form-group">
                               <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                              <input type="password" name="password" id="pass" placeholder="Mot de passe"/>
+                              <input type="password" name="password" id="pass" placeholder="Mot de passe" required/>
                           </div>
                           <div class="form-group form-button">
                               <input type="submit" name="valider"  class="form-submit" value="Modifier"/>
@@ -144,23 +144,23 @@
                       <form method="POST" class="register-form" id="register-form">
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="nom" id="name" value="${user.getNom()}"/>
+                              <input type="text" name="nom" id="name" value="${user.getNom()}" required/>
                           </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="prenom" id="name" value="${user.getPrenom()}"/>
+                              <input type="text" name="prenom" id="name" value="${user.getPrenom()}" required/>
                           </div>
                            <div class="form-group">
                               <label for="dateNaiss"><i class="zmdi zmdi-calendar"></i></label>
-                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance"/>
+                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance" required/>
                           </div>
                           <div class="form-group">
                               <label for="email"><i class="zmdi zmdi-email"></i></label>
-                              <input type="email" name="email" id="email" value="${user.getEmail()}"/>
+                              <input type="email" name="email" id="email" value="${user.getEmail()}" required/>
                           </div>
                           <div class="form-group">
                               <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                              <input type="password" name="password" id="pass" placeholder="Mot de passe"/>
+                              <input type="password" name="password" id="pass" placeholder="Mot de passe" required/>
                           </div>
                           <div class="form-group">
                             <select class="form-select" name="typeUser">

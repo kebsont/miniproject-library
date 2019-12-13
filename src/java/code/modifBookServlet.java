@@ -5,9 +5,11 @@
  */
 package code;
 
+import code.entities.Book;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
@@ -40,48 +42,40 @@ public class modifBookServlet extends HttpServlet {
             Connection con = null;
             try {
                 con = DatabaseConnection.initializeDatabase();
-
+                // If the form is filled with the title
                 if (request.getParameterMap().containsKey("titre")) {
                     Statement st = null;
-
-                    out.println("<!DOCTYPE html>");
-                    out.println("<html>");
-                    out.println("<head>");
-                    out.println("<title>Servlet modifBookServlet</title>");
-                    out.println("</head>");
-                    out.println("<body>");
-                    out.println("<h1>Servlet ModifBookServlet at " + request.getContextPath() + "</h1>");
 
                     String titreRecu = request.getParameter("titre");
                     String auteurRecu = request.getParameter("auteur");
                     String editeurRecu = request.getParameter("editeur");
                     String parutionRecu = request.getParameter("parution");
-                    int monId = 21;
+                    Integer disponibilite = 1;
+                    Book livre = new Book(titreRecu, auteurRecu, editeurRecu, parutionRecu, disponibilite.byteValue());
+                    // Update the filled book
+                    st = con.createStatement();
+                    
+                    editBook(livre);
 
                     st = con.createStatement();
-                    String reqUpBook = "UPDATE BOOKS SET Titre ='" + titreRecu + "', Auteur ='" + auteurRecu + "', Edition='" + editeurRecu + "',DateParution='" + parutionRecu + "' WHERE IDBooks = " + monId;
+                    //String reqUpBook = "UPDATE BOOKS SET Titre ='" + titreRecu + "', Auteur ='" + auteurRecu + "', Edition='" + editeurRecu + "',DateParution='" + parutionRecu + "' WHERE IDBooks = " + monId;
 
-                    int r = st.executeUpdate(reqUpBook);
-                    out.println("Bienvenue " + titreRecu + " !!!!");
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + auteurRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + editeurRecu);
-                    out.println("<br>");
-                    out.println("Ton mot de passe est : " + parutionRecu);
-                    System.out.println("titreRecu : " + titreRecu);
+                    //int r = st.executeUpdate(reqUpBook);
+                   
                     response.sendRedirect(request.getContextPath() + "/BooksServlet");
-                    //r.close();
                     st.close();
                     con.close();
 
                 } else {
+                    // redirect if any actions
                     this.getServletContext().getRequestDispatcher("/WEB-INF/modifBook.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-1);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-2);
             }
         }
     }
@@ -125,4 +119,28 @@ public class modifBookServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    int editBook(Book book) {
+        Connection con;
+        int rs = 0;
+        try {
+            con = DatabaseConnection.initializeDatabase();
+            System.out.println("con: " + con);
+            // Update the book with the given ID
+            PreparedStatement st = con
+                    .prepareStatement("UPDATE BOOKS SET Titre ='" + book.getTitre() + "', Auteur ='" + book.getAuteur() + "', Edition='" + book.getEdition() + "',DateParution='" + book.getDateParution() + "' WHERE IDBooks = " + book.getId());
+
+            System.out.println("Ma requete est " + st);
+            rs = st.executeUpdate();
+            System.out.println("le rs est " + rs);
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-3);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(listEmpruntServlet.class.getName()).log(Level.SEVERE, null, ex);
+            System.exit(-4);
+        }
+        return rs;
+    }
 }

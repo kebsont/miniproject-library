@@ -12,17 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-import org.jasypt.util.password.StrongPasswordEncryptor;
-import org.jasypt.util.text.StrongTextEncryptor;
 
 /**
  *
@@ -41,15 +37,14 @@ public class Inscription extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 
-        //this.getServletContext().getRequestDispatcher("/WEB-INF/inscription.jsp").forward(request, response);
         String nomRecu, prenomRecu, loginRecu, emailRecu, passwordRecu, typeUserRecu;
         Date dateNaissRecu;
         Connection con = null;
+        // if form is filled with the button name
         try {
             con = DatabaseConnection.initializeDatabase();
             if (request.getParameterMap().containsKey("name")) {
                 Statement st = null;
-                // try {
                 nomRecu = request.getParameter("name");
                 prenomRecu = request.getParameter("prenom");
                 loginRecu = request.getParameter("login");
@@ -57,18 +52,13 @@ public class Inscription extends HttpServlet {
                 String dateNaissStr = request.getParameter("DateNaiss");
                 typeUserRecu = "User";
 
-                //dateNaissRecu = new SimpleDateFormat("DD-MMM-YYYY").parse(dateNaissStr);
                 emailRecu = request.getParameter("email");
                 passwordRecu = request.getParameter("password");
-                /* } catch (Exception e) {
-                request.setAttribute("erreur", "Informations manquantes, Veuillez vérifier votre formulaire.");
-                processRequest(request, response);
-                return;
-            }*/
-
+                
+                // Encrypt the password with BasicAuth
                 BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
                 String encryptedPassword = passwordEncryptor.encryptPassword(passwordRecu);
-
+                //fill the user
                 User user = new User();
                 user.setNom(nomRecu);
                 user.setPrenom(prenomRecu);
@@ -78,8 +68,7 @@ public class Inscription extends HttpServlet {
                 user.setPassword(encryptedPassword);
                 user.setProfil(typeUserRecu);
 
-                System.out.println("Utilisateur inscrit: " + user);
-
+                // Insert him/her into DB
                 st = con.createStatement();
                 String reqaddUser = "INSERT INTO USERS (Nom, Prenom,Login,  DateNaissance,Profil, Password, Email ) VALUES "
                         + "('" + nomRecu + "','" + prenomRecu + "', '" + loginRecu + "', '" + dateNaissStr + "','" + typeUserRecu + "','" + encryptedPassword + "','" + emailRecu + "')";
@@ -94,8 +83,10 @@ public class Inscription extends HttpServlet {
             }
         } catch (SQLException ex) {
             Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-1);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-2);
         }
     }
 
@@ -115,6 +106,7 @@ public class Inscription extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-3);
         }
     }
 
@@ -133,6 +125,7 @@ public class Inscription extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-4);
         }
 
     }

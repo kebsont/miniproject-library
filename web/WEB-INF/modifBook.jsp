@@ -28,7 +28,6 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                
             }
             li{
                 float: right;
@@ -110,19 +109,19 @@
                         </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-format-color-text material-icons-name"></i></label>
-                              <input type="text" name="titre" id="titre" value="${titre}"/>
+                              <input type="text" name="titre" id="titre" value="${titre}" required/>
                           </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="auteur" id="auteur" value="${auteur}"/>
+                              <input type="text" name="auteur" id="auteur" value="${auteur}" required/>
                           </div>
                           <div class="form-group">
                               <label for="email"><i class="zmdi zmdi-home"></i></label>
-                              <input type="text" name="editeur" id="email" value="${edition}"/>
+                              <input type="text" name="editeur" id="email" value="${edition}" required/>
                           </div>
                           <div class="form-group">
                               <label for="pass"><i class="zmdi zmdi-calendar"></i></label>
-                              <input type="date" name="parution" id="parution" />
+                              <input type="date" name="parution" id="parution" required/>
                           </div>
                           <div class="form-group form-button">
                               <input type="submit" name="ajouter"  class="form-submit" value="Modifier"/>

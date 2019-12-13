@@ -28,7 +28,6 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                
             }
             li{
                 float: right;
@@ -44,8 +43,6 @@
             li hover:not(.active){
                 background-color: #0c2461;
             }
-            
-
         </style>
 </head>
 <body>
@@ -113,18 +110,18 @@
                           </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="auteur" id="name" placeholder="Auteur"/>
+                              <input type="text" name="auteur" id="name" placeholder="Auteur" required/>
                           </div>
                           <div class="form-group">
                               <label for="email"><i class="zmdi zmdi-home"></i></label>
-                              <input type="text" name="editeur" id="email" placeholder="Editeur"/>
+                              <input type="text" name="editeur" id="email" placeholder="Editeur" required/>
                           </div>
                           <div class="form-group">
                               <label for="pass"><i class="zmdi zmdi-calendar"></i></label>
-                              <input type="date" name="parution" id="pass" placeholder="Date de parution"/>
+                              <input type="date" name="parution" id="pass" placeholder="Date de parution" required/>
                           </div>
                           <div class="form-group form-button">
-                              <input type="submit" name="ajouter"  class="form-submit" value="Ajouter"/>
+                              <input type="submit" name="ajouter"  class="form-submit" value="Ajouter" required/>
                           </div>
                       </form>
                   </div>

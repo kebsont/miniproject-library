@@ -61,6 +61,7 @@ public class Deconnexion extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-1);
         }
     }
 
@@ -79,6 +80,7 @@ public class Deconnexion extends HttpServlet {
             processRequest(request, response);
         } catch (ParseException ex) {
             Logger.getLogger(Inscription.class.getName()).log(Level.SEVERE, null, ex);
+             System.exit(-2);
         }
 
     }

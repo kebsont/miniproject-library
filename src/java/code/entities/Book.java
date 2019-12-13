@@ -16,11 +16,18 @@ public class Book {
     private String titre;
     private String auteur;
     private String edition;
-    private Date dateParution;
+    private String dateParution;
     private Byte disponibilite;
     public Book(){}
     
-    public Book(Long id, String titre, String auteur, String edition, Date dateParution, Byte disponibilite){
+    public Book( String titre, String auteur, String edition, String dateParution, Byte disponibilite){
+        this.titre = titre;
+        this.auteur = auteur;
+        this.edition = edition;
+        this.dateParution = dateParution;
+        this.disponibilite=disponibilite;
+    }
+    public Book(Long id, String titre, String auteur, String edition, String dateParution, Byte disponibilite){
         this.id = id;
         this.titre = titre;
         this.auteur = auteur;
@@ -62,11 +69,11 @@ public class Book {
         this.edition = edition;
     }
 
-    public Date getDateParution() {
+    public String getDateParution() {
         return dateParution;
     }
 
-    public void setDateParution(Date dateParution) {
+    public void setDateParution(String dateParution) {
         this.dateParution = dateParution;
     }
     public Byte getDisponibilite() {

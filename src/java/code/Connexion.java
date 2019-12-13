@@ -44,15 +44,13 @@ public class Connexion extends HttpServlet {
             try {
                 con = DatabaseConnection.initializeDatabase();
                 if (request.getParameter("connexion") != null) {
-                    System.out.println("JE suis dans le bouton");
 
                     if (request.getParameterMap().containsKey("email") && request.getParameterMap().containsKey("password")) {
-                        System.out.println("JE suis dans le bouton 2");
 
                         String emailRecu = request.getParameter("email");
                         String passwordRecu = request.getParameter("password");
+                        // A Basic encryptor for password
                         BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
-                        //String encryptedPassword = passwordEncryptor.encryptPassword(passwordRecu);
                         PreparedStatement st = con
                                 .prepareStatement("select * from USERS WHERE email = '" + emailRecu + "'");
                         ResultSet rs = st.executeQuery();
@@ -69,34 +67,38 @@ public class Connexion extends HttpServlet {
                             System.out.println("password from the DB WHILE: " + password);
                         }
                         User user = new User(password, nom, prenom, profil);
-
+                        // Compare the given password with the one stored in DB
                         if (passwordEncryptor.checkPassword(passwordRecu, password)) {
                             System.out.println("Identifiants Corrects");
                             HttpSession session = request.getSession();
+                            //Add user data session
                             session.setAttribute("IDUser", IDUser);
                             session.setAttribute("prenomFromSession", user.getPrenom());
                             session.setAttribute("nomFromSession", user.getNom());
                             session.setAttribute("profilFromSession", user.getProfil());
-                            session.setMaxInactiveInterval(30*60);
-                           
+                            session.setMaxInactiveInterval(30 * 60);
+                            // Redirect to home page 
                             response.sendRedirect(request.getContextPath() + "/BooksServlet");
 
                         } else {
+                            // Redirect with error message
                             System.out.println("Identifiants incorrects");
-                            //request.setAttribute("messages", messages);
-                            // request.getRequestDispatcher("form.jsp").forward(request, response);
+                            request.setAttribute("error", "Identifiants incorrect");
+                            response.sendRedirect(request.getContextPath() + "/Connexion");
+
                         }
 
                     }
                 } else {
-                    System.out.println("JE suis pas dans le bouton");
 
                     this.getServletContext().getRequestDispatcher("/WEB-INF/connexion.jsp").forward(request, response);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                System.exit(-1);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(addBookServlet.class.getName()).log(Level.SEVERE, null, ex);
+                 System.exit(-2);
             }
         }
     }

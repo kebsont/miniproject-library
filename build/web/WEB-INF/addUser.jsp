@@ -102,28 +102,28 @@
           <div class="container">
               <div class="signup-content">
                   <div class="signup-form">
-                      <h2 class="form-title">S'inscrire</h2>
+                      <h2 class="form-title">Ajouter un utilisateur</h2>
                       <form method="POST" class="register-form" id="register-form">
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="nom" id="name" placeholder="Nom"/>
+                              <input type="text" name="nom" id="name" placeholder="Nom" required/>
                           </div>
                           <div class="form-group">
                               <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                              <input type="text" name="prenom" id="name" placeholder="Prénom"/>
+                              <input type="text" name="prenom" id="name" placeholder="Prénom" required/>
                           </div>
                            <div class="form-group">
                               <label for="dateNaiss"><i class="zmdi zmdi-calendar"></i></label>
-                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance"/>
+                              <input type="date" name="dateNaiss" id="pass" placeholder="Date de Naissance" required/>
                           </div>
                           <div class="form-group">
                               <label for="email"><i class="zmdi zmdi-email"></i></label>
-                              <input type="email" name="email" id="email" placeholder="Email"/>
+                              <input type="email" name="email" id="email" placeholder="Email" required/>
                           </div>
                           
                           <div class="form-group">
                               <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                              <input type="password" name="password" id="pass" placeholder="Mot de passe"/>
+                              <input type="password" name="password" id="pass" placeholder="Mot de passe" required/>
                           </div>
                           <div class="form-group">
                             <select class="form-select" name="typeUser">
@@ -133,13 +133,9 @@
                             </select>
                           </div>
                           <div class="form-group form-button">
-                              <input type="submit" name="valider"  class="form-submit" value="S'inscrire"/>
+                              <input type="submit" name="valider"  class="form-submit" value="Ajouter"/>
                           </div>
                       </form>
-                  </div>
-                  <div class="signup-image">
-                      <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
-                      <a href="#signin" class="signup-image-link">J'ai déjà un compte</a>
                   </div>
               </div>
           </div>
