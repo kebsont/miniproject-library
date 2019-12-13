@@ -50,7 +50,7 @@
         </style>
     </head>
     <body>
-         <jsp:include page= "nav.jsp"/>
+        
          <div class="main">
                <!-- Sing in  Form -->
         <section class="sign-in" id="signin">

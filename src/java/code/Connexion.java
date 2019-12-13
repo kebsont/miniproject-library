@@ -15,7 +15,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,14 +75,8 @@ public class Connexion extends HttpServlet {
                             session.setAttribute("nomFromSession", user.getNom());
                             session.setAttribute("profilFromSession", user.getProfil());
                             session.setMaxInactiveInterval(30*60);
-                            Cookie prenomCookie = new Cookie("prenomFromCookie", user.getPrenom());
-                            Cookie nomCookie = new Cookie("nomFromCookie", user.getNom());
-                            prenomCookie.setMaxAge(30 * 60);
-                            response.addCookie(prenomCookie);
-                            nomCookie.setMaxAge(30 * 60);
-                            response.addCookie(nomCookie);
+                           
                             response.sendRedirect(request.getContextPath() + "/BooksServlet");
-                            //setting cookie to expiry in 30 mins
 
                         } else {
                             System.out.println("Identifiants incorrects");

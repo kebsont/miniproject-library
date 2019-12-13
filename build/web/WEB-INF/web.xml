@@ -30,7 +30,7 @@
     </servlet>
     <servlet>
         <servlet-name>modifBookServlet</servlet-name>
-        <servlet-class>modifBookServlet</servlet-class>
+        <servlet-class>code.modifBookServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>modifUserServlet</servlet-name>

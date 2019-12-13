@@ -50,7 +50,6 @@
         </style>
     </head>
     <body>
-         <jsp:include page= "nav.jsp"/>
          <div class="main">
                <!-- Sign up form -->
         <section class="signup" id="signup">

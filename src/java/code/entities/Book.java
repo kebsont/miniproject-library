@@ -17,14 +17,16 @@ public class Book {
     private String auteur;
     private String edition;
     private Date dateParution;
+    private Byte disponibilite;
     public Book(){}
     
-    public Book(Long id, String titre, String auteur, String edition, Date dateParution){
+    public Book(Long id, String titre, String auteur, String edition, Date dateParution, Byte disponibilite){
         this.id = id;
         this.titre = titre;
         this.auteur = auteur;
         this.edition = edition;
         this.dateParution = dateParution;
+        this.disponibilite=disponibilite;
     }
 
     public Long getId() {
@@ -66,6 +68,13 @@ public class Book {
 
     public void setDateParution(Date dateParution) {
         this.dateParution = dateParution;
+    }
+    public Byte getDisponibilite() {
+        return disponibilite;
+    }
+
+    public void setDisponibilite(Byte disponibilite) {
+        this.disponibilite = disponibilite;
     }
 
     @Override

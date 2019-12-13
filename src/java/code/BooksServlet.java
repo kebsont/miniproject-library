@@ -39,33 +39,33 @@ public class BooksServlet extends HttpServlet {
         try ( PrintWriter out = response.getWriter()) {
             Connection con = DatabaseConnection.initializeDatabase();
 
-          
+            System.out.println("Tu n'as rien recherché");
 
-                System.out.println("Tu n'as rien recherché");
+            PreparedStatement st = con
+                    .prepareStatement("select * from BOOKS");
+            ResultSet rs = st.executeQuery();
+            List listeLivres = new LinkedList();
 
-                PreparedStatement st = con
-                        .prepareStatement("select * from BOOKS");
-                ResultSet rs = st.executeQuery();
-                List listeLivres = new LinkedList();
+            while (rs.next()) {
+                Long id = rs.getLong(1);
+                String titre = rs.getString(2);
+                String auteur = rs.getString(3);
+                String edition = rs.getString(4);
+                Date dateParution = rs.getDate("DateParution");
+                Byte disponibilite = rs.getByte("Disponibilite");
 
-                while (rs.next()) {
-                    Long id = rs.getLong(1);
-                    String titre = rs.getString(2);
-                    String auteur = rs.getString(3);
-                    String edition = rs.getString(4);
-                    Date dateParution = rs.getDate("DateParution");
-                    Book livre = new Book(id, titre, auteur, edition, dateParution);
+                Book livre = new Book(id, titre, auteur, edition, dateParution, disponibilite);
 
-                    listeLivres.add(livre);
+                listeLivres.add(livre);
 
-                }
-                System.out.println("Livres: " + listeLivres);
-                request.setAttribute("livres", listeLivres);
+            }
+            System.out.println("Livres: " + listeLivres);
+            request.setAttribute("livres", listeLivres);
 
-                this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+            this.getServletContext().getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
 
-                rs.close();
-                con.close();
+            rs.close();
+            con.close();
 
             //}
         } catch (SQLException ex) {
@@ -106,44 +106,71 @@ public class BooksServlet extends HttpServlet {
         try {
             Connection con = DatabaseConnection.initializeDatabase();
             String titreSearch = request.getParameter("fctSearch");
-            if(titreSearch != null){
-                
-            
-            System.out.println("Tu recherches le livre: " + titreSearch);
-            ArrayList al = null;
-            Book book = new Book();
-            ArrayList bookSearchAL = new ArrayList();
-            String query = "select * from BOOKS WHERE Titre LIKE '%" + titreSearch + "%' ";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            
-            List listeLivres = new LinkedList();
-            
-            while (rs.next()) {
-                Long id = rs.getLong(1);
-                String titre = rs.getString(2);
-                String auteur = rs.getString(3);
-                String edition = rs.getString(4);
-                Date dateParution = rs.getDate("DateParution");
-                Book livre = new Book(id, titre, auteur, edition, dateParution);
-                
-                listeLivres.add(livre);
-                
-            }
-            System.out.println("Livressssssssssss: " + listeLivres);
-            request.setAttribute("livres", listeLivres);
-            
-            this.getServletContext().getRequestDispatcher("/WEB-INF/bookSearch.jsp").forward(request, response);
-            
-            rs.close();
-            con.close();
-            }
-            else if (request.getParameter("Modifier") != null) {
-            request.setAttribute("idBook", request.getParameter("Modifier")); 
-            response.sendRedirect(request.getContextPath()+ "/modifBookServlet");
+            Book livre = null;
+            if (titreSearch != null) {
 
-        } else if (request.getParameter("Supprimer") != null) {
-            deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDBooks", "BOOKS");
+                System.out.println("Tu recherches le livre: " + titreSearch);
+                ArrayList al = null;
+                Book book = new Book();
+                ArrayList bookSearchAL = new ArrayList();
+                String query = "select * from BOOKS WHERE Titre LIKE '%" + titreSearch + "%' ";
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                List listeLivres = new LinkedList();
+
+                while (rs.next()) {
+                    Long id = rs.getLong(1);
+                    String titre = rs.getString(2);
+                    String auteur = rs.getString(3);
+                    String edition = rs.getString(4);
+                    Date dateParution = rs.getDate("DateParution");
+                    Byte disponibilite = rs.getByte("Disponibilite");
+
+                    livre = new Book(id, titre, auteur, edition, dateParution, disponibilite);
+
+                    listeLivres.add(livre);
+
+                }
+                System.out.println("Livressssssssssss: " + listeLivres);
+                request.setAttribute("livres", listeLivres);
+
+                this.getServletContext().getRequestDispatcher("/WEB-INF/bookSearch.jsp").forward(request, response);
+
+                rs.close();
+                con.close();
+            } else if (request.getParameter("Modifier") != null) {
+                int monId = Integer.parseInt(request.getParameter("Modifier"));
+
+                String query = "select * from BOOKS WHERE IDBooks ='" + monId + "' ";
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                Book BookToEdit = null;
+                while (rs.next()) {
+                    Long id = rs.getLong(1);
+                    String titre = rs.getString(2);
+                    String auteur = rs.getString(3);
+                    String edition = rs.getString(4);
+                    Date dateParution = rs.getDate("DateParution");
+                    Byte disponibilite = rs.getByte("Disponibilite");
+
+                    BookToEdit = new Book(id, titre, auteur, edition, dateParution, disponibilite);
+                }
+                System.out.println("Le Livre a édité est: " + BookToEdit.getAuteur());
+                rs.close();
+                con.close();
+
+                request.setAttribute("auteur", BookToEdit.getAuteur());
+                request.setAttribute("edition", BookToEdit.getEdition());
+                request.setAttribute("titre", BookToEdit.getTitre());
+                //response.sendRedirect(request.getContextPath() + "/modifBookServlet");
+                this.getServletContext().getRequestDispatcher("/WEB-INF/modifBook.jsp").forward(request, response);
+
+            } else if (request.getParameter("Supprimer") != null) {
+                deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDBooks", "BOOKS");
+                response.sendRedirect(request.getContextPath() + "/BooksServlet");
+            }else if (request.getParameter("Emprunter") !=null){
+            emprunterLivre(Integer.parseInt(request.getParameter("Emprunter")));
             response.sendRedirect(request.getContextPath()+ "/BooksServlet");
         }
         } catch (SQLException ex) {
@@ -163,7 +190,7 @@ public class BooksServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
+
     int deleteElement(int id, String NomID, String table) {
         Connection con;
         int rs = 0;
@@ -172,6 +199,27 @@ public class BooksServlet extends HttpServlet {
             System.out.println("con: " + con);
             PreparedStatement st = con
                     .prepareStatement("DELETE FROM " + table + " WHERE " + NomID + " = " + id);
+            System.out.println("Ma requete est " + st);
+            rs = st.executeUpdate();
+            System.out.println("le rs est " + rs);
+            st.close();
+            con.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
+    int emprunterLivre(int id){
+        Connection con;
+        int rs = 0;
+        try {
+            con = DatabaseConnection.initializeDatabase();
+            System.out.println("con: " + con);
+            PreparedStatement st = con
+                    .prepareStatement("UPDATE BOOKS SET Disponibilite = 0 WHERE IDBooks = " + id);
             System.out.println("Ma requete est " + st);
             rs = st.executeUpdate();
             System.out.println("le rs est " + rs);

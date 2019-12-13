@@ -5,6 +5,7 @@
  */
 package code;
 
+import code.entities.Book;
 import code.entities.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -104,8 +106,36 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response)
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         if (request.getParameter("Modifier") != null) {
-            request.setAttribute("idUser", request.getParameter("Modifier")); 
-            response.sendRedirect(request.getContextPath()+ "/modifUserServlet");
+            try {
+                int monId = Integer.parseInt(request.getParameter("Modifier"));
+                   User user = null;
+                String query = "select * from USERS WHERE IDUser ='" + monId + "' ";
+                Connection con = DatabaseConnection.initializeDatabase();
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery(query);
+                Book BookToEdit = null;
+                while (rs.next()) {
+                   Long id = rs.getLong(1);
+                String nom = rs.getString("Nom");
+                String prenom = rs.getString("Prenom");
+                String dateNaissance = rs.getString("DateNaissance");
+                String profil = rs.getString("Profil");
+                String password = rs.getString("Password");
+                String email = rs.getString("Email");
+                String login = rs.getString("login");
+                user = new User(id, nom, prenom,login, dateNaissance, profil, password, email);
+                }
+                rs.close();
+                con.close();
+
+                request.setAttribute("user", user);
+                //request.setAttribute("idUser", request.getParameter("Modifier"));
+                this.getServletContext().getRequestDispatcher("/WEB-INF/modifUser.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(listUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else if (request.getParameter("Supprimer") != null) {
             deleteElement(Integer.parseInt(request.getParameter("Supprimer")), "IDUser", "USERS");

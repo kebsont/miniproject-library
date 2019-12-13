@@ -34,7 +34,7 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
-                
+
             }
             li{
                 float: right;
@@ -45,28 +45,67 @@
                 text-align: center;
                 padding: 14px 16px;
                 text-decoration: none;
-                
+
             }
             li hover:not(.active){
                 background-color: #0c2461;
             }
-            
+
 
         </style>
     </head>
     <body>
-         <jsp:include page= "nav.jsp"/>
+        <%
+
+            // Verifier si le user a les droits
+            String prenom = null;
+            String nom = null;
+            String profil = null;
+
+            if (session.getAttribute("prenomFromSession") == null) {
+                // redirect to connexion page
+                System.out.println("Ton username session est vide");
+                response.sendRedirect(request.getContextPath() + "/Connexion");
+
+            } else if (session.getAttribute("prenomFromSession") != null) {
+                System.out.println("Ton username session n'est pas vide");
+                prenom = (String) session.getAttribute("prenomFromSession");
+                nom = (String) session.getAttribute("nomFromSession");
+                profil = (String) session.getAttribute("profilFromSession");
+
+                if (profil.equals("User")) {
+                    // menu pour agent
+        %>
+        <div id = "thenav" > 
+            <nav class ="thenav">
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/Deconnexion"><i class="zmdi zmdi-power material-icons-name"></i></a></li>
+                    <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
+                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
+                </ul>
+            </nav>
+        </div>
+        <% } else if (profil.equals("Agent")) {
+        %>
+        <div id = "thenav" > 
+            <nav class ="thenav">
+                <ul>
+                    <li><a href="${pageContext.request.contextPath}/Deconnexion"><i class="zmdi zmdi-power material-icons-name"></i></a></li>
+                    <li><a href="${pageContext.request.contextPath}/modifUserServlet"><%= nom + " " + prenom%></a></li>
+                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Livres</a></li>  
+                    <li><a class="active" href="${pageContext.request.contextPath}/listUserServlet">Gérer Utilisateurs</a></li>  
+                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Gérer Emprunts</a></li>  
+                    <li><a class="active" href="${pageContext.request.contextPath}/BooksServlet">Accueil</a></li>       
+                </ul>
+            </nav>
+        </div>
+
+        <% }%>
         <div class="main">
 
             <section class="signup">
                 <div class="container">
 
-                    <!-- Search form -->
-                    <!-- <form class="form-inline active-purple-4">
-                      <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Rechercher un livre..."
-                        aria-label="Search">
-                      <i class="zmdi zmdi-search material-icons-name" aria-hidden="true"></i>
-                    </form> -->
                     <form method="POST" class="register-form" id="register-form">
                         <div class="form-group col-md-5">
                             <input type="text" placeholder="Rechercher un utilisateur...">
@@ -89,12 +128,12 @@
                                                 <p class="card-text"><small class="text-muted">${elt.dateNaissance}</small></p>
                                                 <p class="card-text"><small class="text-muted">${elt.email}</small></p>
                                             </div>
-                                           <div class="card-footer">
+                                            <div class="card-footer">
                                                 <form action="${pageContext.request.contextPath}/listUserServlet" method="post">
                                                     <button type="submit" name="Modifier" class="form-submit btn btn-primary" value=${elt.id}>
                                                         <span class="zmdi zmdi-border-color"></span>
                                                     </button>
-                                                   <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value=${elt.id}>
+                                                    <button type="submit" name="Supprimer" class="form-submit btn btn-danger" value=${elt.id}>
                                                         <span class="zmdi zmdi-delete"></span>
                                                     </button>
                                                 </form>
@@ -124,4 +163,5 @@
             </section>
         </div>
     </body>
+    <%  }%>
 </html>
